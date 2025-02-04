@@ -5,7 +5,7 @@
 </script>
 
 <button
-  class="group relative h-12 px-4 text-xl font-semibold text-white"
+  class="group relative h-12 px-4 text-xl font-semibold text-white rounded-lg"
   onclick={() => {
     onclick?.();
   }}
