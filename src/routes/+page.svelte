@@ -36,11 +36,11 @@
   <Button onclick={newHand}>New Hand</Button>
   <p class="text-lg font-bold">In Deck: {remaining}/52</p>
 
-  <div class="flex items-center justify-center gap-2">
+  <div class="flex items-center justify-center gap-2 pt-8">
     {#each hand as card}
       <div
         class={{
-          "w-48 transition-transform": true,
+          "w-48 rounded-[1rem] transition-all focus:outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_0.5rem] focus-visible:shadow-blue-500": true,
           "-translate-y-8": card.selected,
         }}
         role="button"
