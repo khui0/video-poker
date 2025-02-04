@@ -5,6 +5,7 @@
   import GameIconsClubs from "~icons/game-icons/clubs";
   import GameIconsHearts from "~icons/game-icons/hearts";
   import GameIconsSpades from "~icons/game-icons/spades";
+  import Button from "./button.svelte";
 
   let {
     rank,

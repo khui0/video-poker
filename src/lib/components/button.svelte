@@ -1,14 +1,26 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
 
-  let { children, onclick }: { children: Snippet; onclick?: Function } = $props();
+  let {
+    children,
+    onclick,
+    disabled,
+  }: {
+    children: Snippet;
+    onclick?: Function;
+    disabled?: boolean;
+  } = $props();
 </script>
 
 <button
-  class="group relative h-12 px-4 text-xl font-semibold text-white rounded-lg"
+  class={{
+    "group relative h-12 rounded-lg px-4 text-xl font-semibold text-white": true,
+    "opacity-50 pointer-events-none": disabled,
+  }}
   onclick={() => {
     onclick?.();
   }}
+  {disabled}
 >
   <span role="presentation" class="opacity-0">{@render children?.()}</span>
   <div class="absolute bottom-0 left-0 h-10 w-full rounded-lg bg-blue-600"></div>
