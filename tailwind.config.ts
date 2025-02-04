@@ -1,10 +1,12 @@
+import containerQueries from "@tailwindcss/container-queries";
 import typography from "@tailwindcss/typography";
 import daisyui from "daisyui";
 import type { Config } from "tailwindcss";
 
 export default {
   content: ["./src/**/*.{html,js,svelte,ts}"],
-  plugins: [typography, daisyui],
+  plugins: [typography, daisyui, containerQueries],
+
   daisyui: {
     themes: [
       {
@@ -22,5 +24,9 @@ export default {
         },
       },
     ],
+  },
+
+  theme: {
+    extend: {},
   },
 } satisfies Config;
