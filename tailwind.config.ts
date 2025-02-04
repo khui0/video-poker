@@ -10,17 +10,17 @@ export default {
   daisyui: {
     themes: [
       {
-        dark: {
-          accent: "#382d7b",
+        light: {
+          accent: "#1349a5",
           "accent-content": "#ffffff",
           neutral: "#525252",
           "neutral-content": "#dcdcdc",
           error: "#de4343",
           "error-content": "#ffffff",
-          "base-100": "#111111",
-          "base-200": "#202020",
-          "base-300": "#252525",
-          "base-content": "#ffffff",
+          "base-100": "#ffffff",
+          "base-200": "#eaeaea",
+          "base-300": "#d9d9d9",
+          "base-content": "#232323",
         },
       },
     ],
