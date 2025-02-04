@@ -1,11 +1,10 @@
 <script lang="ts">
+  import { type Rank, type Suit } from "$lib/cards";
+
   import GameIconsDiamonds from "~icons/game-icons/diamonds";
   import GameIconsClubs from "~icons/game-icons/clubs";
   import GameIconsHearts from "~icons/game-icons/hearts";
   import GameIconsSpades from "~icons/game-icons/spades";
-
-  type Rank = "A" | "K" | "Q" | "J" | number;
-  type Suit = "D" | "C" | "H" | "S";
 
   let {
     rank,
@@ -16,7 +15,7 @@
 
 {#snippet label()}
   <div class="flex flex-col px-1 [&>svg]:h-auto [&>svg]:w-full">
-    <p class="text-center text-[13cqw] font-bold leading-tight">{rank}</p>
+    <p class="text-center text-[13cqw] font-bold leading-snug">{rank}</p>
     {#if suit === "D"}
       <GameIconsDiamonds />
     {:else if suit === "C"}
@@ -43,22 +42,80 @@
   </div>
 {/snippet}
 
+{#snippet single()}
+  <div class="flex w-full justify-between">
+    <div class="m-auto w-[20cqw]">{@render symbol()}</div>
+  </div>
+{/snippet}
+
+{#snippet double()}
+  <div class="flex w-full justify-between">
+    <div class="m-auto w-[20cqw]">{@render symbol()}</div>
+    <div class="m-auto w-[20cqw]">{@render symbol()}</div>
+  </div>
+{/snippet}
+
+{#snippet count()}
+  {@const count = parseInt(rank)}
+  <div class="flex flex-col items-center justify-between py-[10cqw]">
+    {#if count <= 3}
+      {#each Array(count) as _}
+        {@render single()}
+      {/each}
+    {:else if count <= 6}
+      {@render double()}
+      <div class="flex w-full justify-between">
+        {#each Array(count % 4) as _}
+          <div class="m-auto w-[20cqw]">{@render symbol()}</div>
+        {/each}
+      </div>
+      {@render double()}
+    {:else if count === 7}
+      {@render double()}
+      {@render single()}
+      {@render double()}
+      <div></div>
+      {@render double()}
+    {:else if count === 8}
+      {@render double()}
+      {@render single()}
+      {@render double()}
+      {@render single()}
+      {@render double()}
+    {:else if count === 9}
+      {@render double()}
+      {@render double()}
+      {@render single()}
+      {@render double()}
+      {@render double()}
+    {:else if count === 10}
+      {@render double()}
+      {@render single()}
+      {@render double()}
+      {@render double()}
+      {@render single()}
+      {@render double()}
+    {/if}
+  </div>
+{/snippet}
+
 <div
   class={{
-    "relative grid aspect-[63/88] max-w-48 grid-cols-[1fr_3fr_1fr] overflow-hidden rounded-[1rem] border-4 bg-white transition-transform @container": true,
+    "relative grid aspect-[63/88] max-w-48 flex-shrink-0 grid-cols-[1fr_3fr_1fr] overflow-hidden rounded-[1rem] border-4 bg-white transition-transform @container": true,
     "text-red-500": suit === "D" || suit === "H",
     flipped: hidden,
   }}
 >
   {@render label()}
-  {#if rank === "K" || rank === "Q" || rank === "J"}
-    <div class="flex items-center p-5">
-      {@render symbol()}
+  {#if rank === "A" || rank === "K" || rank === "Q" || rank === "J"}
+    <div class="flex items-center justify-center">
+      <div class="w-[50cqw]">{@render symbol()}</div>
     </div>
+  {:else if parseInt(rank) <= 10}
+    {@render count()}
   {:else}
-    {@const count = rank === "A" ? 1 : rank}
     <div class="flex flex-wrap items-center justify-center overflow-hidden">
-      {#each Array(count) as _}
+      {#each Array(parseInt(rank)) as _}
         <div class="w-[20cqw]">{@render symbol()}</div>
       {/each}
     </div>

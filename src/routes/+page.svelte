@@ -1,12 +1,44 @@
 <script lang="ts">
+  import { Deck, type Rank, type Suit } from "$lib/cards";
+  import Button from "$lib/components/button.svelte";
   import Card from "../lib/components/card.svelte";
 
-  let checked = $state(false);
+  const deck = new Deck();
+
+  let hand: {
+    rank: Rank;
+    suit: Suit;
+    hidden?: boolean;
+  }[] = $state([]);
+
+  let remaining = $state(deck.remaining);
+
+  newHand();
+
+  function newHand() {
+    hand = [];
+    for (let i = 0; i < 5; i++) {
+      const result = deck.draw();
+      if (result) {
+        hand.push(result);
+      } else {
+        deck.reset();
+        break;
+      }
+    }
+    remaining = deck.remaining;
+  }
 </script>
 
-<input type="checkbox" bind:checked />
+<div class="flex flex-col gap-4">
+  <Button onclick={newHand}>New Hand</Button>
+  <p class="text-lg font-bold">In Deck: {remaining}/52</p>
 
-<Card rank={10} suit="D" bind:hidden={checked} />
-<Card rank={2} suit="D" bind:hidden={checked} />
-<Card rank={"A"} suit="C" bind:hidden={checked} />
-<Card rank={"K"} suit="H" bind:hidden={checked} />
+  <div class="flex items-center justify-center gap-2">
+    {#each hand as card}
+      <div class="w-48">
+        <Card {...card} />
+      </div>
+    {/each}
+  </div>
+</div>

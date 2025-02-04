@@ -3,4 +3,6 @@
   let { children } = $props();
 </script>
 
-{@render children()}
+<main class="h-full p-4">
+  {@render children()}
+</main>
