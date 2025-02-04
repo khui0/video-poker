@@ -9,6 +9,8 @@
     rank: Rank;
     suit: Suit;
     hidden?: boolean;
+    focus?: boolean;
+    selected?: boolean;
   }[] = $state([]);
 
   let remaining = $state(deck.remaining);
@@ -36,7 +38,29 @@
 
   <div class="flex items-center justify-center gap-2">
     {#each hand as card}
-      <div class="w-48">
+      <div
+        class={{
+          "w-48 transition-transform": true,
+          "-translate-y-8": card.selected,
+        }}
+        role="button"
+        tabindex="0"
+        onmouseenter={() => {
+          card.focus = true;
+        }}
+        onmouseleave={() => {
+          card.focus = false;
+        }}
+        onclick={() => {
+          card.selected = !card.selected;
+        }}
+        onkeydown={(e) => {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            card.selected = !card.selected;
+          }
+        }}
+      >
         <Card {...card} />
       </div>
     {/each}

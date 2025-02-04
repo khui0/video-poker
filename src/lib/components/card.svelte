@@ -10,7 +10,13 @@
     rank,
     suit,
     hidden = $bindable(false),
-  }: { rank: Rank; suit: Suit; hidden?: boolean } = $props();
+    focus = $bindable(false),
+  }: {
+    rank: Rank;
+    suit: Suit;
+    hidden?: boolean;
+    focus?: boolean;
+  } = $props();
 </script>
 
 {#snippet label()}
@@ -101,9 +107,10 @@
 
 <div
   class={{
-    "relative grid aspect-[63/88] max-w-48 flex-shrink-0 grid-cols-[1fr_3fr_1fr] overflow-hidden rounded-[1rem] border-4 bg-white transition-transform @container": true,
+    "relative grid aspect-[63/88] max-w-48 flex-shrink-0 grid-cols-[1fr_3fr_1fr] overflow-hidden rounded-[1rem] border-4 bg-white transition-all @container": true,
     "text-red-500": suit === "D" || suit === "H",
     flipped: hidden,
+    "z-10 shadow-[0_0_0_0.5rem] shadow-blue-500": focus,
   }}
 >
   {@render label()}
