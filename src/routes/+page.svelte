@@ -140,11 +140,19 @@
     {/snippet}
   </StateSwap>
 </div>
-<footer class="flex h-4 flex-wrap gap-4 leading-none text-base-content/25">
-  <p>&copy; 2025 Kenny Hui</p>
-  <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">
-    <p>Suit icons by Skoll</p>
-  </a>
+<footer class="flex flex-wrap justify-between gap-x-4 gap-y-2 leading-none text-base-content/25">
+  <div class="flex flex-wrap gap-4">
+    <p>&copy; 2025 Kenny Hui</p>
+    <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">
+      Suit icons by Skoll
+    </a>
+  </div>
+  <div class="flex flex-wrap gap-4">
+    <a href="https://github.com/khui0/video-poker" target="_blank" rel="noopener noreferrer">
+      GitHub
+    </a>
+    <p>{import.meta.env.PACKAGE_VERSION}</p>
+  </div>
 </footer>
 {#if gameState === "penniless"}
   <FullScreen>
