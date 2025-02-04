@@ -13,7 +13,7 @@
   }: {
     bet: number;
     amount: number;
-    state: "bet" | "hold" | "result";
+    state: GameState;
   } = $props();
 </script>
 

@@ -13,7 +13,7 @@
       focus?: boolean;
       selected?: boolean;
     }[];
-    state: "bet" | "hold" | "result";
+    state: GameState;
   } = $props();
 </script>
 

@@ -4,14 +4,14 @@
 
   let {
     state = $bindable(),
-    bet,
-    hold,
-    result,
+    betState,
+    holdState,
+    resultState,
   }: {
-    state: "bet" | "hold" | "result";
-    bet?: Snippet;
-    hold?: Snippet;
-    result?: Snippet;
+    state: GameState;
+    betState?: Snippet;
+    holdState?: Snippet;
+    resultState?: Snippet;
   } = $props();
 </script>
 
@@ -22,7 +22,7 @@
       out:fly={{ y: -25 }}
       class="absolute inset-0 flex items-center justify-center gap-4"
     >
-      {@render bet?.()}
+      {@render betState?.()}
     </div>
   {:else if state === "hold"}
     <div
@@ -30,7 +30,7 @@
       out:fly={{ y: -25 }}
       class="absolute inset-0 flex items-center justify-center gap-4"
     >
-      {@render hold?.()}
+      {@render holdState?.()}
     </div>
   {:else if state === "result"}
     <div
@@ -38,7 +38,7 @@
       out:fly={{ y: -25 }}
       class="absolute inset-0 flex items-center justify-center gap-4"
     >
-      {@render result?.()}
+      {@render resultState?.()}
     </div>
   {/if}
 </div>

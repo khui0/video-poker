@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { fly } from "svelte/transition";
   import { Deck, type Rank, type Suit } from "$lib/cards";
   import { checkHand, POKER_HANDS } from "$lib/poker";
 
@@ -10,6 +9,7 @@
   import BetSelector from "./bet-selector.svelte";
   import Hand from "./hand.svelte";
   import StateSwap from "$lib/components/state-swap.svelte";
+  import FullScreen from "$lib/components/full-screen.svelte";
 
   const deck = new Deck();
 
@@ -22,11 +22,12 @@
   }[] = $state([]);
 
   let amount: number = $state(1000);
+  let maxAmount: number = $state(1000);
   let bet: number = $state(10);
 
   let resultString: string = $state("");
 
-  let gameState: "bet" | "hold" | "result" = $state("bet");
+  let gameState: GameState = $state("bet");
 
   onMount(() => {
     newHand();
@@ -52,13 +53,13 @@
   }
 
   let revealInterval: number = 0;
-  let revealIndex: number = 0;
 
   function startRound() {
     gameState = "hold";
+    amount -= bet;
 
     clearInterval(revealInterval);
-    revealIndex = 0;
+    let revealIndex: number = 0;
     revealInterval = setInterval(() => {
       if (revealIndex < hand.length) {
         hand[revealIndex].hidden = false;
@@ -80,8 +81,17 @@
       hand[i].selected = false;
     }
     setTimeout(() => {
+      // ROUND END
       resultString = checkHand(hand);
       gameState = "result";
+      amount += bet * POKER_HANDS[resultString].mult;
+      bet = Math.min(bet, amount);
+      if (amount >= maxAmount) {
+        maxAmount = amount;
+      }
+      if (amount <= 0) {
+        gameState = "penniless";
+      }
     }, 300);
   }
 
@@ -89,32 +99,61 @@
     deck.reset();
     newHand();
   }
+
+  function resetGame() {
+    amount = 1000;
+    maxAmount = 1000;
+    bet = 10;
+    resetRound();
+  }
 </script>
 
-<div class="flex flex-col gap-4">
+<div class="flex flex-1 flex-col gap-4">
   <Logo />
   <Value text="You Have">
     <p class="text-5xl font-bold">${amount.toLocaleString()}</p>
   </Value>
   <BetSelector bind:bet bind:amount bind:state={gameState} />
   <StateSwap bind:state={gameState}>
-    {#snippet bet()}
+    {#snippet betState()}
       <Button onclick={startRound}>Place Bet</Button>
     {/snippet}
-    {#snippet result()}
-      <p class="text-4xl font-bold uppercase">
-        {POKER_HANDS[resultString].name}!
-        <span class="lowercase text-blue-600">{POKER_HANDS[resultString].mult}x</span>
-      </p>
+    {#snippet resultState()}
+      <div class="flex flex-col items-center text-center">
+        <p class="text-4xl font-bold uppercase">
+          {POKER_HANDS[resultString].name}!
+          <span class="lowercase text-blue-600">{POKER_HANDS[resultString].mult}x</span>
+        </p>
+        <p class="text-base-content/50">
+          +${(bet * POKER_HANDS[resultString].mult).toLocaleString()}
+        </p>
+      </div>
     {/snippet}
   </StateSwap>
   <Hand bind:hand bind:state={gameState} />
   <StateSwap bind:state={gameState}>
-    {#snippet hold()}
+    {#snippet holdState()}
       <Button onclick={drawCards}>Draw</Button>
     {/snippet}
-    {#snippet result()}
+    {#snippet resultState()}
       <Button onclick={resetRound}>New Round</Button>
     {/snippet}
   </StateSwap>
 </div>
+<footer class="flex h-4 flex-wrap gap-4 leading-none text-base-content/25">
+  <p>&copy; 2025 Kenny Hui</p>
+  <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">
+    <p>Suit icons by Skoll</p>
+  </a>
+</footer>
+{#if gameState === "penniless"}
+  <FullScreen>
+    <h1 class="text-4xl font-bold">You lost all your money!</h1>
+    <p class="text-2xl font-medium">
+      At some point you had <span class="font-bold text-blue-600">
+        ${maxAmount.toLocaleString()}
+      </span>
+    </p>
+    <Button onclick={resetGame}>Play Again</Button>
+  </FullScreen>
+{/if}
