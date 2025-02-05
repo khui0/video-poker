@@ -16,7 +16,7 @@ const stored = browser && localStorage.getItem(NAME);
 const initial: Stats = {
   bestAmount: 0,
   bestHand: {
-    type: "",
+    type: "high-card",
     score: 0,
   },
 };
