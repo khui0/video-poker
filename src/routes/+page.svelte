@@ -31,7 +31,12 @@
 
   onMount(() => {
     amount = parseInt(localStorage.getItem("balance") || "1000");
-    newHand();
+    const savedHand = localStorage.getItem("hand");
+    if (savedHand) {
+      hand = JSON.parse(savedHand);
+    } else {
+      newHand();
+    }
   });
 
   function newHand() {
@@ -51,6 +56,8 @@
         break;
       }
     }
+
+    localStorage.setItem("hand", JSON.stringify(hand));
   }
 
   let revealInterval: number = 0;
