@@ -22,7 +22,7 @@
 
 {#snippet label()}
   <div class="flex flex-col px-1 [&>svg]:h-auto [&>svg]:w-full">
-    <p class="text-center text-[13cqw] font-bold leading-snug">{rank}</p>
+    <p class="text-center font-bold leading-snug">{rank}</p>
     {#if suit === "D"}
       <GameIconsDiamonds />
     {:else if suit === "C"}
@@ -114,7 +114,9 @@
     "z-10 shadow-[0_0_0_0.5rem] shadow-blue-500": focus,
   }}
 >
-  {@render label()}
+  <div class="text-[15cqw]">
+    {@render label()}
+  </div>
   {#if rank === "A" || rank === "K" || rank === "Q" || rank === "J"}
     <div class="flex items-center justify-center">
       <div class="w-[50cqw]">{@render symbol()}</div>
@@ -128,8 +130,13 @@
       {/each}
     </div>
   {/if}
-  <div class="rotate-180">
+  <div class="rotate-180 text-[15cqw]">
     {@render label()}
+  </div>
+  <div class="absolute inset-0 flex items-center justify-center bg-white px-2 @[5rem]:hidden">
+    <div class="text-[45cqw]">
+      {@render label()}
+    </div>
   </div>
   <div
     class={{

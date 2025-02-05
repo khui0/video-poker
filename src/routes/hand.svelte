@@ -26,10 +26,10 @@
       }}
       role="button"
       tabindex="0"
-      onmouseenter={() => {
+      onpointerenter={() => {
         card.focus = true;
       }}
-      onmouseleave={() => {
+      onpointerleave={() => {
         card.focus = false;
       }}
       onclick={() => {

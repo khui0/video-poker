@@ -15,7 +15,7 @@
   } = $props();
 </script>
 
-<div class="relative h-12">
+<div class="relative mt-4 h-12">
   {#if state === "bet"}
     <div
       in:fly={{ y: 25 }}
