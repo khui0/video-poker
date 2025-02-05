@@ -10,6 +10,7 @@
   import Hand from "./hand.svelte";
   import StateSwap from "$lib/components/state-swap.svelte";
   import FullScreen from "$lib/components/full-screen.svelte";
+  import Scoring from "$lib/components/scoring.svelte";
 
   const deck = new Deck();
 
@@ -203,11 +204,16 @@
 {#if showHelp}
   <FullScreen>
     <h1 class="text-4xl font-bold">How to play</h1>
-    <ol class="max-w-screen-sm text-xl">
-      <li>Place a bet</li>
-      <li>Select cards to hold</li>
-      <li>Better poker hands give a better multiplier!</li>
-    </ol>
+    <div class="flex flex-col flex-wrap gap-4 sm:flex-row-reverse">
+      <div class="w-64 text-start">
+        <ol class="list-decimal pl-8 text-xl">
+          <li>Place a bet</li>
+          <li>Select cards to hold</li>
+          <li>Better poker hands give a better multiplier!</li>
+        </ol>
+      </div>
+      <Scoring />
+    </div>
     <Button
       onclick={() => {
         showHelp = false;
