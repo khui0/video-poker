@@ -4,7 +4,7 @@
 
   let {
     hand = $bindable(),
-    state = $bindable(),
+    state: gameState = $bindable(),
   }: {
     hand: {
       rank: Rank;
@@ -23,9 +23,10 @@
       class={{
         "w-48 select-none rounded-[1rem] transition-all focus:outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_0.5rem] focus-visible:shadow-blue-500": true,
         "-translate-y-8": card.selected,
+        "pointer-events-none": gameState !== "hold",
       }}
       role="button"
-      tabindex="0"
+      tabindex={gameState === "hold" ? 0 : -1}
       onpointerenter={() => {
         card.focus = true;
       }}
@@ -33,13 +34,13 @@
         card.focus = false;
       }}
       onclick={() => {
-        if (state !== "hold") return;
+        if (gameState !== "hold") return;
         card.selected = !card.selected;
       }}
       onkeydown={(e) => {
         if (e.key === " " || e.key === "Enter") {
           e.preventDefault();
-          if (state !== "hold") return;
+          if (gameState !== "hold") return;
           card.selected = !card.selected;
         }
       }}
