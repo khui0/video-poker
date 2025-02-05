@@ -108,7 +108,7 @@
   }
 </script>
 
-<div class="flex flex-1 select-none flex-col gap-4">
+<div class="flex flex-1 flex-col gap-4">
   <Logo />
   <Value text="You Have">
     <p class="text-5xl font-bold">${amount.toLocaleString()}</p>
@@ -140,7 +140,9 @@
     {/snippet}
   </StateSwap>
 </div>
-<footer class="flex flex-wrap justify-between gap-x-4 gap-y-2 leading-none text-base-content/25 mt-4">
+<footer
+  class="mt-4 flex flex-wrap justify-between gap-x-4 gap-y-2 leading-none text-base-content/25"
+>
   <div class="flex flex-wrap gap-4">
     <p>&copy; 2025 Kenny Hui</p>
     <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">

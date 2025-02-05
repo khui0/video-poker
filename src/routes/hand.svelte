@@ -21,7 +21,7 @@
   {#each hand as card}
     <div
       class={{
-        "w-48 rounded-[1rem] transition-all focus:outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_0.5rem] focus-visible:shadow-blue-500": true,
+        "w-48 select-none rounded-[1rem] transition-all focus:outline-none focus-visible:z-10 focus-visible:shadow-[0_0_0_0.5rem] focus-visible:shadow-blue-500": true,
         "-translate-y-8": card.selected,
       }}
       role="button"
