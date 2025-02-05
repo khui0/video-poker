@@ -30,6 +30,7 @@
   let gameState: GameState = $state("bet");
 
   onMount(() => {
+    amount = parseInt(localStorage.getItem("balance") || "1000");
     newHand();
   });
 
@@ -85,11 +86,14 @@
       resultString = checkHand(hand);
       gameState = "result";
       amount += bet * POKER_HANDS[resultString].mult;
+      localStorage.setItem("balance", amount.toString());
       bet = Math.min(bet, amount);
       if (amount >= maxAmount) {
         maxAmount = amount;
       }
       if (amount <= 0) {
+        // GAME LOSE
+        localStorage.removeItem("balance");
         gameState = "penniless";
       }
     }, 300);
