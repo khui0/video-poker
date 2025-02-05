@@ -11,7 +11,7 @@ export const POKER_HANDS: {
     mult: 100,
   },
   "straight-flush": {
-    name: "Stright Flush",
+    name: "Straight Flush",
     mult: 50,
   },
   "four-kind": {
