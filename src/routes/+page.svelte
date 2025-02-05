@@ -40,6 +40,7 @@
 
   onMount(() => {
     amount = parseInt(localStorage.getItem("balance") || "1000");
+    bet = Math.min(10, amount);
     const savedHand = localStorage.getItem("hand");
     if (savedHand) {
       hand = JSON.parse(savedHand);

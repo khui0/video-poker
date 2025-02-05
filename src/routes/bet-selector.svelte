@@ -4,7 +4,7 @@
   import TablerMinus from "~icons/tabler/minus";
   import Label from "$lib/components/label.svelte";
 
-  const MIN_BET = 10;
+  const MIN_BET = 1;
 
   let {
     bet = $bindable(),
@@ -19,21 +19,21 @@
   let incrementLevels: number = $derived(Math.max(amount.toString().length - 2, 2));
   let increment: number = $state(10);
 
+  let disabled: boolean = $derived(gameState !== "bet");
+
   function decrease() {
     if (gameState !== "bet") return;
-    if (bet <= MIN_BET) {
+    bet -= increment;
+    if (bet < MIN_BET) {
       bet = amount;
-    } else {
-      bet -= increment;
     }
   }
 
   function increase() {
     if (gameState !== "bet") return;
-    if (bet >= amount) {
+    bet += increment;
+    if (bet > amount) {
       bet = MIN_BET;
-    } else {
-      bet += increment;
     }
   }
 
@@ -68,14 +68,14 @@
 <div>
   <div class="mx-auto grid w-fit grid-cols-1 place-items-center gap-2 sm:grid-cols-3">
     <div class="flex w-fit items-center justify-center gap-2">
-      <Button disabled={gameState !== "bet"} onclick={min}>Min</Button>
+      <Button {disabled} onclick={min}>Min</Button>
       <div class="hidden sm:block">
-        <Button disabled={gameState !== "bet"} onclick={decrease}>
+        <Button {disabled} onclick={decrease}>
           <TablerMinus />
         </Button>
       </div>
       <div class="sm:hidden">
-        <Button disabled={gameState !== "bet"} onclick={max}>Max</Button>
+        <Button {disabled} onclick={max}>Max</Button>
       </div>
     </div>
     <Label text="Bet Amount">
@@ -83,15 +83,15 @@
     </Label>
     <div class="flex w-fit items-center justify-center gap-2">
       <div class="sm:hidden">
-        <Button disabled={gameState !== "bet"} onclick={decrease}>
+        <Button {disabled} onclick={decrease}>
           <TablerMinus />
         </Button>
       </div>
-      <Button disabled={gameState !== "bet"} onclick={increase}>
+      <Button {disabled} onclick={increase}>
         <TablerPlus />
       </Button>
       <div class="hidden sm:block">
-        <Button disabled={gameState !== "bet"} onclick={max}>Max</Button>
+        <Button {disabled} onclick={max}>Max</Button>
       </div>
     </div>
   </div>
@@ -101,7 +101,7 @@
         {@const value = 10 ** (i + 1)}
         <Button
           size="small"
-          disabled={gameState !== "bet"}
+          {disabled}
           held={increment === value}
           onclick={() => {
             increment = value;
@@ -112,23 +112,23 @@
     <div class="flex flex-wrap justify-center gap-1">
       <Button
         size="small"
-        disabled={gameState !== "bet"}
+        {disabled}
         onclick={() => {
-          bet = Math.max(10, Math.floor(amount * 0.25));
+          bet = Math.max(MIN_BET, Math.floor(amount * 0.25));
         }}>25%</Button
       >
       <Button
         size="small"
-        disabled={gameState !== "bet"}
+        {disabled}
         onclick={() => {
-          bet = Math.max(10, Math.floor(amount * 0.5));
+          bet = Math.max(MIN_BET, Math.floor(amount * 0.5));
         }}>50%</Button
       >
       <Button
         size="small"
-        disabled={gameState !== "bet"}
+        {disabled}
         onclick={() => {
-          bet = Math.max(10, Math.floor(amount * 0.75));
+          bet = Math.max(MIN_BET, Math.floor(amount * 0.75));
         }}>75%</Button
       >
     </div>
