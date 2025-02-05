@@ -5,7 +5,7 @@
 
   import Button from "$lib/components/button.svelte";
   import Logo from "$lib/components/logo.svelte";
-  import Value from "$lib/components/value.svelte";
+  import Label from "$lib/components/label.svelte";
   import BetSelector from "./bet-selector.svelte";
   import Hand from "./hand.svelte";
   import StateSwap from "$lib/components/state-swap.svelte";
@@ -134,9 +134,9 @@
 
 <div class="flex flex-1 flex-col gap-4">
   <Logo />
-  <Value text="You Have">
+  <Label text="You Have">
     <p class="text-5xl font-bold">${amount.toLocaleString()}</p>
-  </Value>
+  </Label>
   <BetSelector bind:bet bind:amount bind:state={gameState} />
   <StateSwap bind:state={gameState}>
     {#snippet betState()}
@@ -171,10 +171,7 @@
   class="mt-4 flex flex-wrap justify-between gap-x-4 gap-y-2 leading-none text-base-content/25"
 >
   <div class="flex flex-wrap gap-4">
-    <p>&copy; 2025 Kenny Hui</p>
-    <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">
-      Suit icons by Skoll
-    </a>
+    Credits
   </div>
   <div class="flex flex-wrap gap-4">
     <button

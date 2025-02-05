@@ -2,36 +2,49 @@
   import Button from "$lib/components/button.svelte";
   import TablerPlus from "~icons/tabler/plus";
   import TablerMinus from "~icons/tabler/minus";
-  import Value from "$lib/components/value.svelte";
+  import Label from "$lib/components/label.svelte";
 
   const MIN_BET = 10;
 
   let {
     bet = $bindable(),
     amount = $bindable(),
-    state = $bindable(),
+    state: gameState = $bindable(),
   }: {
     bet: number;
     amount: number;
     state: GameState;
   } = $props();
 
+  let incrementLevels: number = $derived(Math.max(amount.toString().length - 2, 2));
+  let increment: number = $state(10);
+
   function decrease() {
-    if (state !== "bet") return;
+    if (gameState !== "bet") return;
     if (bet <= MIN_BET) {
       bet = amount;
     } else {
-      bet -= 10;
+      bet -= increment;
     }
   }
 
   function increase() {
-    if (state !== "bet") return;
+    if (gameState !== "bet") return;
     if (bet >= amount) {
       bet = MIN_BET;
     } else {
-      bet += 10;
+      bet += increment;
     }
+  }
+
+  function min() {
+    if (gameState !== "bet") return;
+    bet = MIN_BET;
+  }
+
+  function max() {
+    if (gameState !== "bet") return;
+    bet = amount;
   }
 </script>
 
@@ -43,37 +56,81 @@
     if (e.key === "=") {
       increase();
     }
+    if (e.key === "_") {
+      min();
+    }
+    if (e.key === "+") {
+      max();
+    }
   }}
 />
 
-<div class="mx-auto grid w-fit grid-cols-1 place-items-center gap-2 sm:grid-cols-3">
-  <div class="flex w-fit items-center justify-center gap-2">
-    <Button
-      disabled={state !== "bet"}
-      onclick={() => {
-        if (state !== "bet") return;
-        bet = MIN_BET;
-      }}
-      >Min
-    </Button>
-    <Button disabled={state !== "bet"} onclick={decrease}>
-      <TablerMinus />
-    </Button>
+<div>
+  <div class="mx-auto grid w-fit grid-cols-1 place-items-center gap-2 sm:grid-cols-3">
+    <div class="flex w-fit items-center justify-center gap-2">
+      <Button disabled={gameState !== "bet"} onclick={min}>Min</Button>
+      <div class="hidden sm:block">
+        <Button disabled={gameState !== "bet"} onclick={decrease}>
+          <TablerMinus />
+        </Button>
+      </div>
+      <div class="sm:hidden">
+        <Button disabled={gameState !== "bet"} onclick={max}>Max</Button>
+      </div>
+    </div>
+    <Label text="Bet Amount">
+      <p class="text-4xl font-bold">${bet.toLocaleString()}</p>
+    </Label>
+    <div class="flex w-fit items-center justify-center gap-2">
+      <div class="sm:hidden">
+        <Button disabled={gameState !== "bet"} onclick={decrease}>
+          <TablerMinus />
+        </Button>
+      </div>
+      <Button disabled={gameState !== "bet"} onclick={increase}>
+        <TablerPlus />
+      </Button>
+      <div class="hidden sm:block">
+        <Button disabled={gameState !== "bet"} onclick={max}>Max</Button>
+      </div>
+    </div>
   </div>
-  <Value text="Bet Amount">
-    <p class="text-4xl font-bold">${bet.toLocaleString()}</p>
-  </Value>
-  <div class="flex w-fit items-center justify-center gap-2">
-    <Button disabled={state !== "bet"} onclick={increase}>
-      <TablerPlus />
-    </Button>
-    <Button
-      disabled={state !== "bet"}
-      onclick={() => {
-        if (state !== "bet") return;
-        bet = amount;
-      }}
-      >Max
-    </Button>
+  <div class="mt-3 flex flex-wrap justify-center gap-2">
+    <div class="flex flex-wrap justify-center gap-1">
+      {#each Array(incrementLevels) as _, i}
+        {@const value = 10 ** (i + 1)}
+        <Button
+          size="small"
+          disabled={gameState !== "bet"}
+          held={increment === value}
+          onclick={() => {
+            increment = value;
+          }}>{value}</Button
+        >
+      {/each}
+    </div>
+    <div class="flex flex-wrap justify-center gap-1">
+      <Button
+        size="small"
+        disabled={gameState !== "bet"}
+        onclick={() => {
+          bet = Math.max(10, Math.floor(amount * 0.25));
+        }}>25%</Button
+      >
+      <Button
+        size="small"
+        disabled={gameState !== "bet"}
+        onclick={() => {
+          bet = Math.max(10, Math.floor(amount * 0.5));
+        }}>50%</Button
+      >
+      <Button
+        size="small"
+        disabled={gameState !== "bet"}
+        onclick={() => {
+          bet = Math.max(10, Math.floor(amount * 0.75));
+        }}>75%</Button
+      >
+    </div>
   </div>
 </div>
