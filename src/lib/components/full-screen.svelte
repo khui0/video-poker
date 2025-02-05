@@ -8,7 +8,10 @@
 <div
   in:fade
   out:fade
-  class="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-base-100/50 p-4 text-center backdrop-blur-sm"
+  data-fullscreen
+  class="fixed inset-0 flex items-center overflow-auto bg-base-100/50 p-4 text-center backdrop-blur-sm"
 >
-  {@render children()}
+  <div class="m-auto flex max-w-sm flex-col items-center gap-4">
+    {@render children()}
+  </div>
 </div>

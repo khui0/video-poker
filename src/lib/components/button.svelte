@@ -14,8 +14,8 @@
 
 <button
   class={{
-    "group relative h-12 rounded-lg px-4 text-xl font-semibold text-white": true,
-    "opacity-50 pointer-events-none": disabled,
+    "group relative h-12 flex-shrink-0 rounded-lg px-4 text-xl font-semibold text-white": true,
+    "pointer-events-none opacity-50": disabled,
   }}
   onclick={() => {
     onclick?.();

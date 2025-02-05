@@ -34,6 +34,11 @@
   textarea {
     @apply placeholder-base-content placeholder-opacity-50;
   }
+
+  :root:has([data-fullscreen]) {
+    overflow: hidden;
+    scrollbar-gutter: auto;
+  }
 }
 
 @layer utilities {

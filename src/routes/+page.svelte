@@ -29,6 +29,8 @@
 
   let gameState: GameState = $state("bet");
 
+  let showHelp: boolean = $state(false);
+
   onMount(() => {
     amount = parseInt(localStorage.getItem("balance") || "1000");
     const savedHand = localStorage.getItem("hand");
@@ -119,6 +121,16 @@
   }
 </script>
 
+<svelte:window
+  onkeydown={(e) => {
+    if (e.key === "Escape") {
+      if (showHelp) {
+        showHelp = false;
+      }
+    }
+  }}
+/>
+
 <div class="flex flex-1 flex-col gap-4">
   <Logo />
   <Value text="You Have">
@@ -164,6 +176,13 @@
     </a>
   </div>
   <div class="flex flex-wrap gap-4">
+    <button
+      onclick={() => {
+        showHelp = true;
+      }}
+    >
+      Help
+    </button>
     <a href="https://github.com/khui0/video-poker" target="_blank" rel="noopener noreferrer">
       GitHub
     </a>
@@ -179,5 +198,21 @@
       </span>
     </p>
     <Button onclick={resetGame}>Play Again</Button>
+  </FullScreen>
+{/if}
+{#if showHelp}
+  <FullScreen>
+    <h1 class="text-4xl font-bold">How to play</h1>
+    <ol class="max-w-screen-sm text-xl">
+      <li>Place a bet</li>
+      <li>Select cards to hold</li>
+      <li>Better poker hands give a better multiplier!</li>
+    </ol>
+    <Button
+      onclick={() => {
+        showHelp = false;
+      }}
+      >Got it
+    </Button>
   </FullScreen>
 {/if}
