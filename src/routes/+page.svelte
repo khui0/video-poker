@@ -283,7 +283,7 @@
       <span class="font-bold text-blue-600">
         ${$stats.bestHand.score.toLocaleString()}
       </span>
-      ({POKER_HANDS[$stats.bestHand.type].name})
+      ({POKER_HANDS[$stats.bestHand.type || "high-card"].name})
     </p>
     <p class="text-xl">Feeling lucky?</p>
     <Button
