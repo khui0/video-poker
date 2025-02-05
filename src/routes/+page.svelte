@@ -118,6 +118,9 @@
     {#snippet betState()}
       <Button onclick={startRound}>Place Bet</Button>
     {/snippet}
+    {#snippet holdState()}
+      <p class="text-xl uppercase text-base-content/50">Select cards to hold</p>
+    {/snippet}
     {#snippet resultState()}
       <div class="flex flex-col items-center text-center">
         <p class="text-4xl font-bold uppercase">
