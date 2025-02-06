@@ -14,7 +14,11 @@
 
   import { stats } from "$lib/stats";
 
+  import "$lib/sound";
+
   import SimpleIconsGithub from "~icons/simple-icons/github";
+  import Volume from "$lib/components/volume.svelte";
+  import { playCard, playCoin, playTheme } from "$lib/sound";
 
   const deck = new Deck();
 
@@ -50,6 +54,7 @@
   });
 
   function newHand() {
+    playCard();
     gameState = "bet";
 
     deck.reset();
@@ -73,6 +78,8 @@
   let revealInterval: number = 0;
 
   function startRound() {
+    playTheme();
+    playCard();
     gameState = "hold";
     amount -= bet;
 
@@ -87,6 +94,7 @@
   }
 
   function drawCards() {
+    playCard();
     for (let i = 0; i < hand.length; i++) {
       if (!hand[i].selected) {
         const result = deck.draw();
@@ -100,6 +108,7 @@
     }
     setTimeout(() => {
       // ROUND END
+      playCoin();
       resultString = checkHand(hand);
       gameState = "result";
 
@@ -187,31 +196,35 @@
 <footer
   class="mt-4 flex flex-wrap justify-between gap-x-4 gap-y-2 leading-none text-base-content/25"
 >
-  <div class="flex flex-wrap gap-4">
-    <button
+  <div class="flex flex-wrap items-center gap-2">
+    <Button
+      size="small"
       onclick={() => {
         showCredits = true;
       }}
     >
       Credits
-    </button>
-    <button
+    </Button>
+    <Button
+      size="small"
       onclick={() => {
         showStats = true;
       }}
     >
       Stats
-    </button>
+    </Button>
   </div>
-  <div class="flex flex-wrap gap-4">
-    <button
+  <div class="flex flex-wrap items-center gap-4">
+    <Button
+      size="small"
       onclick={() => {
         showHelp = true;
       }}
     >
       Help
-    </button>
+    </Button>
     <p>{import.meta.env.PACKAGE_VERSION}</p>
+    <Volume />
   </div>
 </footer>
 {#if gameState === "penniless"}
