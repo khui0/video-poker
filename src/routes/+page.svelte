@@ -14,8 +14,6 @@
 
   import { stats } from "$lib/stats";
 
-  import "$lib/sound";
-
   import SimpleIconsGithub from "~icons/simple-icons/github";
   import Volume from "$lib/components/volume.svelte";
   import { playCard, playCoin, playTheme } from "$lib/sound";
