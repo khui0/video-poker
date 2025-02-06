@@ -211,6 +211,7 @@
     </Button>
   </div>
   <div class="flex flex-wrap items-center gap-1">
+    <p class="px-2">{import.meta.env.PACKAGE_VERSION}</p>
     <Button
       size="small"
       onclick={() => {
