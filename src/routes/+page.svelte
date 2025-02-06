@@ -214,7 +214,8 @@
       Stats
     </Button>
   </div>
-  <div class="flex flex-wrap items-center gap-4">
+  <div class="flex flex-wrap items-center gap-2">
+    <p class="px-2">{import.meta.env.PACKAGE_VERSION}</p>
     <Button
       size="small"
       onclick={() => {
@@ -223,7 +224,6 @@
     >
       Help
     </Button>
-    <p>{import.meta.env.PACKAGE_VERSION}</p>
     <Volume />
   </div>
 </footer>

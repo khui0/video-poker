@@ -15,12 +15,24 @@ import card0 from "$lib/assets/card0.webm";
 import card1 from "$lib/assets/card1.webm";
 import card2 from "$lib/assets/card2.webm";
 
-const theme = new Howl({
-  src: [main0, main1, main2, main3],
-  html5: true,
-  loop: true,
-  volume: 0.5,
-});
+let theme: Howl | undefined;
+
+function autoplay(i: number, list: string[]) {
+  theme = new Howl({
+    src: [list[i]],
+    html5: true,
+    volume: 0.5,
+    onend: function () {
+      if (i + 1 == list.length) {
+        autoplay(0, list);
+      } else {
+        autoplay(i + 1, list);
+      }
+    },
+  });
+  theme.play();
+  console.log("playing", list[i]);
+}
 
 const coins = [
   new Howl({
@@ -59,8 +71,8 @@ const cards = [
 ];
 
 export function playTheme() {
-  if (!theme.playing()) {
-    theme.play();
+  if (!theme || !theme.playing) {
+    autoplay(0, [main0, main1, main2, main3]);
   }
 }
 
