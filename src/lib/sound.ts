@@ -80,7 +80,7 @@ export function playTheme() {
 }
 
 export function skipTheme() {
-  if (theme) {
+  if (theme && !noMusic) {
     theme.seek(theme.duration());
   }
 }

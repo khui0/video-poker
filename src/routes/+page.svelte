@@ -42,6 +42,7 @@
 
   onMount(() => {
     amount = parseInt(localStorage.getItem("balance") || "1000");
+    maxAmount = parseInt(localStorage.getItem("maxAmount") || "1000");
     bet = Math.min(10, amount);
     const savedHand = localStorage.getItem("hand");
     if (savedHand) {
@@ -116,6 +117,7 @@
       bet = Math.min(bet, amount);
       if (amount >= maxAmount) {
         maxAmount = amount;
+        localStorage.setItem("maxAmount", maxAmount.toString());
       }
       // Save stats
       if (amount >= $stats.bestAmount) {
