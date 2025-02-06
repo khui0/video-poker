@@ -191,10 +191,8 @@
     {/snippet}
   </StateSwap>
 </div>
-<footer
-  class="mt-4 flex flex-wrap justify-between gap-x-4 gap-y-2 leading-none text-base-content/25"
->
-  <div class="flex flex-wrap items-center gap-2">
+<footer class="mt-4 flex flex-wrap justify-between gap-2 leading-none text-base-content/25">
+  <div class="flex flex-wrap items-center gap-1">
     <Button
       size="small"
       onclick={() => {
@@ -212,8 +210,7 @@
       Stats
     </Button>
   </div>
-  <div class="flex flex-wrap items-center gap-2">
-    <p class="px-2">{import.meta.env.PACKAGE_VERSION}</p>
+  <div class="flex flex-wrap items-center gap-1">
     <Button
       size="small"
       onclick={() => {

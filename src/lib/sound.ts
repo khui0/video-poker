@@ -15,14 +15,16 @@ import card0 from "$lib/assets/card0.webm";
 import card1 from "$lib/assets/card1.webm";
 import card2 from "$lib/assets/card2.webm";
 
+let muted: boolean = false;
+let noMusic: boolean = false;
+
 let theme: Howl | undefined;
-let themeMuted: boolean = false;
 
 function autoplay(i: number, list: string[]) {
   theme = new Howl({
     src: [list[i]],
     html5: true,
-    volume: themeMuted ? 0 : 0.5,
+    volume: 0.5,
     onend: function () {
       if (i + 1 == list.length) {
         autoplay(0, list);
@@ -31,7 +33,7 @@ function autoplay(i: number, list: string[]) {
       }
     },
   });
-  theme.play();
+  if (!noMusic) theme.play();
   console.log("playing", list[i]);
 }
 
@@ -83,26 +85,36 @@ export function skipTheme() {
   }
 }
 
+export function mute() {
+  muted = true;
+}
+
+export function unmute() {
+  muted = false;
+}
+
 export function pauseTheme() {
-  themeMuted = true;
-  if (theme) {
-    theme.volume(0);
+  noMusic = true;
+  if (theme && theme.playing()) {
+    theme.pause();
   }
 }
 
 export function resumeTheme() {
-  themeMuted = false;
-  if (theme) {
-    theme.volume(0.5);
+  noMusic = false;
+  if (theme && !theme.playing()) {
+    theme.play();
   }
 }
 
 export function playCoin() {
+  if (muted) return;
   const index = Math.floor(Math.random() * coins.length);
   coins[index].play();
 }
 
 export function playCard() {
+  if (muted) return;
   const index = Math.floor(Math.random() * cards.length);
   cards[index].play();
 }

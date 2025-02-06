@@ -4,12 +4,12 @@
 
   import Button from "./button.svelte";
 
-  import TablerVolume from "~icons/tabler/volume";
-  import TablerVolumeOff from "~icons/tabler/volume-off";
+  import { mute, pauseTheme, resumeTheme, skipTheme, unmute } from "$lib/sound";
   import TablerMusic from "~icons/tabler/music";
   import TablerMusicOff from "~icons/tabler/music-off";
   import TablerPlayerSkipForward from "~icons/tabler/player-skip-forward";
-  import { pauseTheme, playTheme, resumeTheme, skipTheme } from "$lib/sound";
+  import TablerVolume from "~icons/tabler/volume";
+  import TablerVolumeOff from "~icons/tabler/volume-off";
 
   let muted: boolean = $state(false);
   let noMusic: boolean = $state(false);
@@ -21,9 +21,9 @@
 
   $effect(() => {
     if (muted) {
-      Howler.volume(0);
+      mute();
     } else {
-      Howler.volume(1);
+      unmute();
     }
     if (noMusic) {
       pauseTheme();
