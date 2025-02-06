@@ -8,6 +8,7 @@
     held,
     size = "normal",
     color = "blue",
+    label,
   }: {
     children: Snippet;
     onclick?: Function;
@@ -15,6 +16,7 @@
     held?: boolean;
     size?: "normal" | "small";
     color?: "blue" | "red" | "green" | "neutral";
+    label?: string;
   } = $props();
 </script>
 
@@ -29,6 +31,7 @@
     onclick?.();
   }}
   {disabled}
+  aria-label={label}
 >
   <span role="presentation" class="opacity-0">{@render children?.()}</span>
   <div

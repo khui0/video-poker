@@ -16,12 +16,13 @@ import card1 from "$lib/assets/card1.webm";
 import card2 from "$lib/assets/card2.webm";
 
 let theme: Howl | undefined;
+let themeMuted: boolean = false;
 
 function autoplay(i: number, list: string[]) {
   theme = new Howl({
     src: [list[i]],
     html5: true,
-    volume: 0.5,
+    volume: themeMuted ? 0 : 0.5,
     onend: function () {
       if (i + 1 == list.length) {
         autoplay(0, list);
@@ -71,8 +72,28 @@ const cards = [
 ];
 
 export function playTheme() {
-  if (!theme || !theme.playing) {
+  if (!theme || !theme.playing()) {
     autoplay(0, [main0, main1, main2, main3]);
+  }
+}
+
+export function skipTheme() {
+  if (theme) {
+    theme.seek(theme.duration());
+  }
+}
+
+export function pauseTheme() {
+  themeMuted = true;
+  if (theme) {
+    theme.volume(0);
+  }
+}
+
+export function resumeTheme() {
+  themeMuted = false;
+  if (theme) {
+    theme.volume(0.5);
   }
 }
 
