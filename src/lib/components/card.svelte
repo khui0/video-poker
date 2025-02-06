@@ -66,8 +66,14 @@
   {@const count = parseInt(rank)}
   <div class="flex flex-col items-center justify-between py-[10cqw]">
     {#if count <= 3}
-      {#each Array(count) as _}
-        {@render single()}
+      {#each Array(count) as _, i}
+        <div
+          class={{
+            "rotate-180": i >= Math.ceil(count / 2),
+          }}
+        >
+          {@render single()}
+        </div>
       {/each}
     {:else if count <= 6}
       {@render double()}
@@ -76,32 +82,46 @@
           <div class="m-auto w-[20cqw]">{@render symbol()}</div>
         {/each}
       </div>
-      {@render double()}
+      <div class="w-full rotate-180">
+        {@render double()}
+      </div>
     {:else if count === 7}
       {@render double()}
       {@render single()}
       {@render double()}
       <div></div>
-      {@render double()}
+      <div class="w-full rotate-180">
+        {@render double()}
+      </div>
     {:else if count === 8}
       {@render double()}
       {@render single()}
       {@render double()}
-      {@render single()}
-      {@render double()}
+      <div class="w-full rotate-180">
+        {@render single()}
+      </div>
+      <div class="w-full rotate-180">
+        {@render double()}
+      </div>
     {:else if count === 9}
       {@render double()}
       {@render double()}
       {@render single()}
-      {@render double()}
-      {@render double()}
+      <div class="w-full rotate-180">
+        {@render double()}
+      </div>
+      <div class="w-full rotate-180">
+        {@render double()}
+      </div>
     {:else if count === 10}
       {@render double()}
       {@render single()}
       {@render double()}
-      {@render double()}
-      {@render single()}
-      {@render double()}
+      <div class="w-full rotate-180">
+        {@render double()}
+        {@render single()}
+        {@render double()}
+      </div>
     {/if}
   </div>
 {/snippet}
