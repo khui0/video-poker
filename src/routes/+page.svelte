@@ -122,6 +122,7 @@
       playCoin();
       resultString = checkHand(hand);
       gameState = "result";
+      $stats.gamesPlayed++;
 
       const score = bet * POKER_HANDS[resultString].mult;
       amount += score;

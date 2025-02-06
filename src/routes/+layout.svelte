@@ -1,6 +1,15 @@
 <script lang="ts">
   import "../app.css";
   let { children } = $props();
+
+  import { stats } from "$lib/stats";
+  import { onMount } from "svelte";
+
+  onMount(() => {
+    setInterval(() => {
+      $stats.minutesPlayed++;
+    }, 60000);
+  });
 </script>
 
 <svelte:head>
