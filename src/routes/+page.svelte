@@ -49,12 +49,8 @@
 
     amount = parseInt(localStorage.getItem("amount") || "1000");
     maxAmount = parseInt(localStorage.getItem("maxAmount") || "1000");
-
-    const savedBet = localStorage.getItem("bet");
-    if (savedBet) {
-      bet = parseInt(savedBet) || Math.min(10, amount);
-      lockBet = true;
-    }
+    bet = parseInt(localStorage.getItem("bet") || "") || Math.min(10, amount);
+    lockBet = localStorage.getItem("lockBet") === "true";
 
     const savedHand = localStorage.getItem("hand");
     if (savedHand) {
@@ -94,6 +90,7 @@
     gameState = "hold";
     amount -= bet;
     localStorage.setItem("bet", bet.toString());
+    localStorage.setItem("lockBet", "true");
 
     clearInterval(revealInterval);
     let revealIndex: number = 0;
@@ -118,7 +115,7 @@
       }
       hand[i].selected = false;
     }
-    localStorage.removeItem("bet");
+    localStorage.setItem("lockBet", "false");
     lockBet = false;
     setTimeout(() => {
       // ROUND END
@@ -130,6 +127,7 @@
       amount += score;
       localStorage.setItem("amount", amount.toString());
       bet = Math.min(bet, amount);
+      localStorage.setItem("bet", bet.toString());
       if (amount >= maxAmount) {
         maxAmount = amount;
         localStorage.setItem("maxAmount", maxAmount.toString());
@@ -146,6 +144,7 @@
         // GAME LOSE
         localStorage.removeItem("amount");
         localStorage.removeItem("maxAmount");
+        localStorage.removeItem("bet");
         gameState = "penniless";
       }
     }, 300);
