@@ -267,6 +267,37 @@
       <a href="https://game-icons.net/" target="_blank" rel="noopener noreferrer">
         Suit icons by Skoll
       </a>
+      <a href="https://www.zapsplat.com/" target="_blank" rel="noopener noreferrer">
+        Sound effects from ZapSplat
+      </a>
+      <a
+        href="https://www.youtube.com/watch?v=42Yw2Llnwzw"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        AnimeLive - Best Friend
+      </a>
+      <a
+        href="https://www.youtube.com/watch?v=VUHcyGeFP-A"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Pix - Alien wolves
+      </a>
+      <a
+        href="https://www.youtube.com/watch?v=G2nmOULeOBQ"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Pix - Space travel
+      </a>
+      <a
+        href="https://www.youtube.com/watch?v=AnW1JtENMS4"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Pix - Poisonous Bite
+      </a>
       <a
         href="https://github.com/khui0/video-poker"
         target="_blank"
