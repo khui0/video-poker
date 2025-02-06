@@ -17,7 +17,7 @@
   } = $props();
 </script>
 
-<div class="flex items-center justify-center gap-2 pt-8">
+<div class="flex touch-manipulation items-center justify-center gap-2 pt-8">
   {#each hand as card}
     <div
       class={{
@@ -33,7 +33,7 @@
       onpointerleave={() => {
         card.focus = false;
       }}
-      onclick={() => {
+      onpointerdown={() => {
         if (gameState !== "hold") return;
         card.selected = !card.selected;
       }}

@@ -22,7 +22,7 @@
 
 <button
   class={{
-    "group relative flex-shrink-0 rounded-lg font-semibold text-white": true,
+    "group relative flex-shrink-0 touch-manipulation rounded-lg font-semibold text-white": true,
     "pointer-events-none opacity-50": disabled,
     "h-12 px-4 text-xl": size === "normal",
     "h-8 px-3 text-base": size === "small",
