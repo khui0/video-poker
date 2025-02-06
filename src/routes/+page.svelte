@@ -14,9 +14,11 @@
 
   import { stats } from "$lib/stats";
 
-  import SimpleIconsGithub from "~icons/simple-icons/github";
   import Volume from "$lib/components/volume.svelte";
   import { playCard, playCoin, playTheme } from "$lib/sound";
+  import { migrate } from "$lib/utilities";
+
+  import SimpleIconsGithub from "~icons/simple-icons/github";
 
   const deck = new Deck();
 
@@ -32,6 +34,8 @@
   let maxAmount: number = $state(1000);
   let bet: number = $state(10);
 
+  let lockBet: boolean = $state(false);
+
   let resultString: string = $state("");
 
   let gameState: GameState = $state("bet");
@@ -41,9 +45,17 @@
   let showStats: boolean = $state(false);
 
   onMount(() => {
-    amount = parseInt(localStorage.getItem("balance") || "1000");
+    migrate("balance", "amount");
+
+    amount = parseInt(localStorage.getItem("amount") || "1000");
     maxAmount = parseInt(localStorage.getItem("maxAmount") || "1000");
-    bet = Math.min(10, amount);
+
+    const savedBet = localStorage.getItem("bet");
+    if (savedBet) {
+      bet = parseInt(savedBet) || Math.min(10, amount);
+      lockBet = true;
+    }
+
     const savedHand = localStorage.getItem("hand");
     if (savedHand) {
       hand = JSON.parse(savedHand);
@@ -81,6 +93,7 @@
     playCard();
     gameState = "hold";
     amount -= bet;
+    localStorage.setItem("bet", bet.toString());
 
     clearInterval(revealInterval);
     let revealIndex: number = 0;
@@ -89,7 +102,7 @@
         hand[revealIndex].hidden = false;
       }
       revealIndex++;
-    }, 25);
+    }, 50);
   }
 
   function drawCards() {
@@ -105,6 +118,8 @@
       }
       hand[i].selected = false;
     }
+    localStorage.removeItem("bet");
+    lockBet = false;
     setTimeout(() => {
       // ROUND END
       playCoin();
@@ -113,7 +128,7 @@
 
       const score = bet * POKER_HANDS[resultString].mult;
       amount += score;
-      localStorage.setItem("balance", amount.toString());
+      localStorage.setItem("amount", amount.toString());
       bet = Math.min(bet, amount);
       if (amount >= maxAmount) {
         maxAmount = amount;
@@ -129,7 +144,8 @@
       }
       if (amount <= 0) {
         // GAME LOSE
-        localStorage.removeItem("balance");
+        localStorage.removeItem("amount");
+        localStorage.removeItem("maxAmount");
         gameState = "penniless";
       }
     }, 300);
@@ -163,7 +179,7 @@
   <Label text="You Have">
     <p class="text-5xl font-bold">${amount.toLocaleString()}</p>
   </Label>
-  <BetSelector bind:bet bind:amount bind:state={gameState} />
+  <BetSelector bind:bet bind:amount bind:state={gameState} bind:lock={lockBet} />
   <StateSwap bind:state={gameState}>
     {#snippet betState()}
       <Button onclick={startRound}>Place Bet</Button>

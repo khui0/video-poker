@@ -10,19 +10,21 @@
     bet = $bindable(),
     amount = $bindable(),
     state: gameState = $bindable(),
+    lock = $bindable(false),
   }: {
     bet: number;
     amount: number;
     state: GameState;
+    lock?: boolean;
   } = $props();
 
   let incrementLevels: number = $derived(Math.max(amount.toString().length - 2, 2));
   let increment: number = $state(10);
 
-  let disabled: boolean = $derived(gameState !== "bet");
+  let disabled: boolean = $derived(gameState !== "bet" || lock);
 
   function decrease() {
-    if (gameState !== "bet") return;
+    if (disabled) return;
     bet -= increment;
     if (bet < MIN_BET) {
       bet = amount;
@@ -30,7 +32,7 @@
   }
 
   function increase() {
-    if (gameState !== "bet") return;
+    if (disabled) return;
     bet += increment;
     if (bet > amount) {
       bet = MIN_BET;
@@ -38,12 +40,12 @@
   }
 
   function min() {
-    if (gameState !== "bet") return;
+    if (disabled) return;
     bet = MIN_BET;
   }
 
   function max() {
-    if (gameState !== "bet") return;
+    if (disabled) return;
     bet = amount;
   }
 </script>
@@ -78,7 +80,7 @@
         <Button {disabled} onclick={max}>Max</Button>
       </div>
     </div>
-    <Label text="Bet Amount">
+    <Label text="Bet Amount{lock ? ' (Locked)' : ''}">
       <p class="text-4xl font-bold">${bet.toLocaleString()}</p>
     </Label>
     <div class="flex w-fit items-center justify-center gap-2">

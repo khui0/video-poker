@@ -10,13 +10,15 @@
   import TablerPlayerSkipForward from "~icons/tabler/player-skip-forward";
   import TablerVolume from "~icons/tabler/volume";
   import TablerVolumeOff from "~icons/tabler/volume-off";
+  import { migrate } from "$lib/utilities";
 
   let muted: boolean = $state(false);
   let noMusic: boolean = $state(false);
 
   onMount(() => {
+    migrate("no-music", "noMusic");
     muted = localStorage.getItem("muted") === "true";
-    noMusic = localStorage.getItem("no-music") === "true";
+    noMusic = localStorage.getItem("noMusic") === "true";
   });
 
   $effect(() => {
@@ -31,7 +33,7 @@
       resumeTheme();
     }
     localStorage.setItem("muted", muted ? "true" : "false");
-    localStorage.setItem("no-music", noMusic ? "true" : "false");
+    localStorage.setItem("noMusic", noMusic ? "true" : "false");
   });
 </script>
 
