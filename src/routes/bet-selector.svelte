@@ -68,7 +68,7 @@
 />
 
 <div>
-  <div class="mx-auto grid w-fit grid-cols-1 place-items-center gap-2 sm:grid-cols-3">
+  <div class="mx-auto grid w-fit grid-cols-1 place-items-center gap-2 sm:grid-cols-[1fr_auto_1fr]">
     <div class="flex w-fit items-center justify-center gap-2">
       <Button {disabled} onclick={min}>Min</Button>
       <div class="hidden sm:block">
