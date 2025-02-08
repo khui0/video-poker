@@ -35,6 +35,7 @@
   let bet: number = $state(10);
 
   let lockBet: boolean = $state(false);
+  let disableDraw: boolean = $state(false);
 
   let resultString: string = $state("");
 
@@ -103,6 +104,8 @@
   }
 
   function drawCards() {
+    if (disableDraw) return;
+    disableDraw = true;
     playCard();
     for (let i = 0; i < hand.length; i++) {
       if (!hand[i].selected) {
@@ -119,6 +122,7 @@
     lockBet = false;
     setTimeout(() => {
       // ROUND END
+      disableDraw = false;
       playCoin();
       resultString = checkHand(hand);
       gameState = "result";
