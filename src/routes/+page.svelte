@@ -16,7 +16,7 @@
 
   import Volume from "$lib/components/volume.svelte";
   import { playCard, playCoin, playTheme } from "$lib/sound";
-  import { migrate } from "$lib/utilities";
+  import { migrate, minutesToString } from "$lib/utilities";
 
   import SimpleIconsGithub from "~icons/simple-icons/github";
   import Toggle from "$lib/components/toggle.svelte";
@@ -361,6 +361,12 @@
         ${$stats.bestHand.score.toLocaleString()}
       </span>
       ({POKER_HANDS[$stats.bestHand.type || "high-card"].name})
+    </p>
+    <p class="text-xl">
+      Play time
+      <span class="font-bold text-blue-600">
+        {minutesToString($stats.minutesPlayed)}
+      </span>
     </p>
     <p class="text-xl">Feeling lucky?</p>
     <Button
