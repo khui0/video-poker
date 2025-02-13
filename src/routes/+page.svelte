@@ -374,7 +374,7 @@
 {#if showSettings}
   <FullScreen>
     <h1 class="text-4xl font-bold">Settings</h1>
-    <label class="flex items-center gap-2 text-xl">
+    <label class="flex items-center gap-3 text-lg">
       Max bet by default
       <Toggle bind:value={$settings.maxBet} />
     </label>
