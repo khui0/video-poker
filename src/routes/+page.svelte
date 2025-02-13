@@ -19,6 +19,8 @@
   import { migrate } from "$lib/utilities";
 
   import SimpleIconsGithub from "~icons/simple-icons/github";
+  import Toggle from "$lib/components/toggle.svelte";
+  import { settings } from "$lib/settings";
 
   const deck = new Deck();
 
@@ -32,7 +34,7 @@
 
   let amount: number = $state(1000);
   let maxAmount: number = $state(1000);
-  let bet: number = $state(10);
+  let bet: number = $state(0);
 
   let lockBet: boolean = $state(false);
   let disableDraw: boolean = $state(false);
@@ -44,13 +46,15 @@
   let showHelp: boolean = $state(false);
   let showCredits: boolean = $state(false);
   let showStats: boolean = $state(false);
+  let showSettings: boolean = $state(false);
 
   onMount(() => {
     migrate("balance", "amount");
 
     amount = parseInt(localStorage.getItem("amount") || "1000");
     maxAmount = parseInt(localStorage.getItem("maxAmount") || "1000");
-    bet = parseInt(localStorage.getItem("bet") || "") || Math.min(10, amount);
+    const BASE_BET = $settings.maxBet === "true" ? amount : Math.min(10, amount);
+    bet = parseInt(localStorage.getItem("bet") || "") || BASE_BET;
     lockBet = localStorage.getItem("lockBet") === "true";
 
     const savedHand = localStorage.getItem("hand");
@@ -163,7 +167,8 @@
   function resetGame() {
     amount = 1000;
     maxAmount = 1000;
-    bet = 10;
+    const BASE_BET = $settings.maxBet === "true" ? amount : Math.min(10, amount);
+    bet = BASE_BET;
     resetRound();
   }
 </script>
@@ -174,6 +179,7 @@
       showHelp = false;
       showCredits = false;
       showStats = false;
+      showSettings = false;
     }
   }}
 />
@@ -230,6 +236,14 @@
       }}
     >
       Stats
+    </Button>
+    <Button
+      size="small"
+      onclick={() => {
+        showSettings = true;
+      }}
+    >
+      Settings
     </Button>
   </div>
   <div class="flex flex-wrap items-center gap-1">
@@ -354,6 +368,21 @@
         showStats = false;
       }}
       >Continue Playing
+    </Button>
+  </FullScreen>
+{/if}
+{#if showSettings}
+  <FullScreen>
+    <h1 class="text-4xl font-bold">Settings</h1>
+    <label class="flex items-center gap-2 text-xl">
+      Max bet by default
+      <Toggle bind:value={$settings.maxBet} />
+    </label>
+    <Button
+      onclick={() => {
+        showSettings = false;
+      }}
+      >Close
     </Button>
   </FullScreen>
 {/if}
