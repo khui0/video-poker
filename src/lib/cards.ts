@@ -285,6 +285,10 @@ export class Deck {
   ];
 
   constructor() {
+    const date = new Date();
+    if (date.getDate() === 14 && date.getMonth() === 1) {
+      this.#deck = this.#deck.filter((card) => card.suit !== "H");
+    }
     return this;
   }
 
